@@ -2,7 +2,7 @@
 
 > A **private, local-first** personal health dashboard that explains the **science and the ROI** behind every check — so you act on the few things that matter, not "do every test."
 
-Your screenings and lab results, mapped onto a body diagram with calm traffic-lights (🟢🟡🔴). For each one it surfaces the **first-principles reasoning**, the **return on investment**, and **risk in perspective** (e.g. how the anesthesia risk of a 无痛肠胃镜 actually compares to everyday alcohol). An optional AI layer reads your *whole* picture and gives a second opinion — but it **proposes, you confirm**; it never silently overrides anything.
+Your screenings and lab results, mapped onto a body diagram with calm traffic-lights (🟢🟡🔴). For each one it surfaces the **first-principles reasoning**, the **return on investment**, and **risk in perspective** (e.g. how the anesthesia risk of a sedated endoscopy actually compares to everyday alcohol). An optional AI layer reads your *whole* picture and gives a second opinion — but it **proposes, you confirm**; it never silently overrides anything.
 
 Everything runs on your machine. No account, no cloud, no data leaves your computer.
 
@@ -22,7 +22,7 @@ Everything runs on your machine. No account, no cloud, no data leaves your compu
 
 One toggle switches the entire app — not just the UI, but all the knowledge content too. Same dashboard, in 中文:
 
-![同一个面板的中文界面 — Dashboard in Chinese](docs/dashboard-zh.png)
+![The same dashboard rendered in Chinese](docs/dashboard-zh.png)
 
 *Screenshots use the fictional demo data — run `npm run setup && npm run dev` to try it (toggle 中文 / English top-right, or use `?lang=en` / `?lang=zh`).*
 
@@ -46,7 +46,7 @@ So this is built on a different premise: **a curious person who trusts data shou
 - **Body map** — tap a region to see its checks, colored by status.
 - **Highest-ROI moves** — your low-hanging fruit, ranked by payoff × ease × urgency.
 - **First principles + ROI + risk** for every item — the science, the trade-off, and honest risk comparisons.
-- **Import any report** — paste text, or upload a photo / screenshot / **PDF** (full 体检报告 or a single result). AI extracts the values; you confirm before anything is saved. Re-uploading the same report is safe (deduped).
+- **Import any report** — paste text, or upload a photo / screenshot / **PDF** (a full checkup report or a single result). AI extracts the values; you confirm before anything is saved. Re-uploading the same report is safe (deduped).
 - **Captures everything** — not just tracked screenings, but every lab value (flagged from the report's *own* reference range), plus **conditions** and **procedures/surgeries** from operative notes.
 - **AI comprehensive review** — an optional second opinion over your whole snapshot that connects the dots a rules engine can't (e.g. "a 2024 achalasia operation implies you were scoped then") and **proposes confirmable updates** — it never overrides the deterministic status.
 - **Per-item AI threads** — ask follow-ups that remember the conversation; saved and restored locally.
@@ -118,7 +118,7 @@ Good health knowledge is **distributed** — it varies by country, specialty, la
 
 - **Review or add a knowledge card.** Know one topic well (thyroid nodules, the PSA debate, vitamin D)? Sharpen that item's first-principles / ROI / risk explanation. AI-drafted explainers start marked *unreviewed* — a human review promotes them to *reviewed*, so review work directly upgrades quality.
 - **Add your region's reference ranges.** "Normal" for a lab value differs by country, lab, and units. Add ranges so the flags are right where you live.
-- **Teach the importer a new report format.** Share an *anonymized* report layout from your country or hospital so the parser reads it well. (East-Asian 体检报告, US lab panels, operative notes — the more formats, the better it gets.)
+- **Teach the importer a new report format.** Share an *anonymized* report layout from your country or hospital so the parser reads it well. (East-Asian checkup reports, US lab panels, operative notes — the more formats, the better it gets.)
 - **Add a language.** Content is structured as `{ zh, en }` — help extend it to a third language for your community.
 - **Encode a screening relationship.** Capture a real guideline as logic: "a recent colonoscopy covers FIT" (supersession), or "a removed polyp shortens the next interval" (findings-aware surveillance).
 - **Add a scenario / screening set.** A life situation or risk profile that deserves tailored guidance — family history of a specific cancer, post-menopausal, a smoker, an ancestry with a higher baseline rate (e.g. gastric cancer in East Asia) — encode *which* checks matter for them and *why*.
