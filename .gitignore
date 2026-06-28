@@ -32,6 +32,20 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
+
+# local SQLite database — holds personal health data, never commit
+*.db
+*.db-journal
+prisma/dev.db*
+
+# PRIVATE seed — real personal health data, never commit (demo seed is prisma/seed.ts)
+prisma/seed.local.ts
+
+# Claude Code session/local state (may contain conversation context)
+.claude/.current_session
+.claude/contexts/
+.claude/settings.local.json
 
 # vercel
 .vercel
@@ -39,3 +53,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# desktop build artifacts
+/release/
+/build/template.db

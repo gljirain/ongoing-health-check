@@ -1,0 +1,103 @@
+// Ongoing Health Check — data model
+//
+// DUAL-MODE STORAGE
+// -----------------
+// Default = local-first SQLite ("private mode"): zero cloud setup, data never
+// leaves your machine. The app code is DB-agnostic, so switching to a hosted
+// Postgres (Supabase / Neon) for cloud/multi-device is a two-line change:
+//
+//   1. set  provider = "postgresql"  below
+//   2. set  DATABASE_URL="postgres://..."  in .env
+//
+// No application code changes — Prisma Client's API is identical for both.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"            // ← change to "postgresql" for cloud mode
+  url      = env("DATABASE_URL")
+}
+
+// A person being tracked: you first, then family/friends (mom, gf, sister...).
+// Recommended screenings are derived from sex + age, so the model is built for
+// many people even though we seed only one.
+model Person {
+  id        String   @id @default(cuid())
+  name      String
+  sex       String   // "male" | "female"
+  birthDate DateTime
+  isSelf    Boolean  @default(false)
+  notes     String?
+  riskFactors Json?
+  entries   Entry[]
+  createdAt DateTime @default(now())
+}
+
+// A single recorded data point for a tracked health item: a screening that was
+// done, a lab value, or a diagnosed condition. `itemKey` references the code
+// catalog in lib/catalog.ts (the knowledge base), so the medical content lives
+// with the app and stays reviewable / open-source-friendly.
+model Entry {
+  id          String   @id @default(cuid())
+  person      Person   @relation(fields: [personId], references: [id], onDelete: Cascade)
+  personId    String
+  itemKey     String   // e.g. "gastroscopy", "fatty_liver", "ldl"
+  performedAt DateTime // when the check/measurement happened
+  // Optional explicit status override (green | yellow | red). For screenings we
+  // usually compute status from `performedAt` vs the recommended interval; for
+  // conditions/labs you can pin it (e.g. fatty liver = yellow).
+  status      String?
+  valueNum    Float?   // numeric result (e.g. LDL = 3.4)
+  valueText   String?  // textual result / findings
+  notes       String?
+  source      String?  // clinic, report id, etc.
+  // ── Layer-0 generic-lab fields ──────────────────────────────────────────
+  // For values that aren't a curated catalog item, itemKey is "lab.<slug>"
+  // (e.g. "lab.alt") and these carry the lab's OWN reference data — the
+  // authoritative source of the normal/high/low flag.
+  label       String?  // human label, e.g. "丙氨酸氨基转移酶 (ALT)"
+  unit        String?  // e.g. "U/L"
+  refText     String?  // the lab's printed reference range, e.g. "0–50"
+  panel       String?  // grouping: liver | kidney | lipid | blood_count | ...
+  createdAt   DateTime @default(now())
+
+  @@index([personId, itemKey])
+}
+
+// Layer-1 cache: an AI-generated explainer for a generic lab, authored once
+// and reused. `reviewed` flips to true once a human/community vets it. This is
+// the seam where open-source review turns AI content into trusted content.
+model LabExplainer {
+  slug      String   @id // lab slug, e.g. "alt"
+  zh        String
+  en        String
+  reviewed  Boolean  @default(false)
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+// A persisted, continuous AI conversation per (person, item). The first
+// assistant message is the personalized read; subsequent user/assistant
+// messages are follow-ups that remember the thread. "Regenerate" clears it.
+model InsightMessage {
+  id        String   @id @default(cuid())
+  personId  String
+  itemKey   String
+  role      String // "user" | "assistant"
+  content   String
+  createdAt DateTime @default(now())
+
+  @@index([personId, itemKey])
+}
+
+// App-level key/value settings, including each user's own AI API keys (BYOK).
+// On a local/desktop install this is the user's own machine + own key (same
+// trust level as .env). NOTE: for a future HOSTED mode, secrets must NOT live
+// here — they'd move to per-user encrypted storage / a server-side proxy. The
+// `getApiKey` resolver in lib/settings.ts is the seam where that swap happens.
+model Setting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @default(now()) @updatedAt
+}
