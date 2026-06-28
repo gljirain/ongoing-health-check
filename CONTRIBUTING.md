@@ -11,9 +11,13 @@ The highest-value, most approachable contributions are to the **knowledge layer*
 1. **Review a lab explainer.** `lib/lab-explainers.ts` holds short, plain-language explainers for common markers. Improve wording, fix an inaccuracy, or mark one reviewed. Keep it to **settled, well-established facts** — calm and non-alarmist.
 2. **Add a lab explainer** for a marker that's missing. Same file; follow the existing `{ slug, zh, en }` shape. Add the canonical slug to the parser's list in `lib/ai.ts` so values line up across reports.
 3. **Add or refine a catalog item.** `lib/catalog.ts` is the body-region knowledge base — each item has first-principles / ROI / risk content in **both 中文 and English**. This is where you add a new screening or sharpen the reasoning on an existing one.
-4. **Reference ranges by region/lab.** Ranges differ by country and lab. Help make the defaults sensible.
+4. **Reference ranges by region/lab.** Ranges differ by country and lab. Help make the defaults sensible for where you live.
+5. **Teach the importer a new report format.** Share an **anonymized** report layout (strip all personal data first) so the parser in `lib/ai.ts` reads your country's/hospital's format well.
+6. **Encode a screening relationship** in `lib/status.ts` — e.g. a `supersededBy` rule (a recent colonoscopy covers FIT) or a findings-aware interval (a removed polyp shortens the next recheck). Cite the guideline.
+7. **Add a scenario / screening set.** A risk profile or life situation that deserves tailored guidance (family history, post-menopausal, smoker, ancestry with a higher baseline rate) — encode which checks matter and why.
+8. **Add a language.** Content is `{ zh, en }`; help extend the structure to a third language.
 
-All medical content is **bilingual** (`{ zh, en }`) and should cite or be checkable against mainstream guidelines where possible.
+All medical content is **bilingual** (`{ zh, en }`) and should cite or be checkable against mainstream guidelines where possible. When in doubt, prefer the less alarming framing and note the uncertainty.
 
 ## Dev setup
 

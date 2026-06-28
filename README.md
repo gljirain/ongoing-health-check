@@ -14,16 +14,32 @@ Everything runs on your machine. No account, no cloud, no data leaves your compu
 
 ## Screenshots
 
-![Dashboard — body map + highest-ROI moves, bilingual](docs/dashboard.png)
+![Dashboard in English — body map + highest-ROI moves](docs/dashboard.png)
 
-*Body map + highest-ROI moves. Screenshot uses the fictional demo data — run `npm run setup && npm run dev` to see it yourself, and toggle 中文 / English in the top-right.*
+*Body map + highest-ROI moves, ranked by payoff × ease × urgency.*
+
+### Fully bilingual — 中文 / English
+
+One toggle switches the entire app — not just the UI, but all the knowledge content too. Same dashboard, in 中文:
+
+![同一个面板的中文界面 — Dashboard in Chinese](docs/dashboard-zh.png)
+
+*Screenshots use the fictional demo data — run `npm run setup && npm run dev` to try it (toggle 中文 / English top-right, or use `?lang=en` / `?lang=zh`).*
 
 <!-- Optional: add docs/item-detail.png (click an item, e.g. Gastroscopy) to show the
      first-principles / ROI / risk depth. See docs/README.md for how. -->
 
 ## Why this exists
 
-Most health tools either nag you to "do everything" or just store numbers. This one is built on a different premise: **a curious person who trusts data should be able to see *why* a check matters, what it actually buys them, and what it costs** — then make their own call. The traffic lights tell you *how much to care*; the knowledge layer tells you *why*.
+**The earlier you catch something, the more it changes the outcome — sometimes everything.**
+
+This project is personal. My mother was diagnosed with breast cancer — and because it was caught early, the story has a very different ending than it could have had. Around the same time, a close friend's father had a heart attack that earlier warning signs might have surfaced. Watching both, the same thought kept coming back: **so much of how health turns out is decided long before any symptoms — by whether the right check happened at the right time.**
+
+Yet most people don't have a clear, trusted picture of *which* checks actually matter for them, *why*, and *what they're worth*. The information is scattered, alarmist, or buried in jargon — so people either ignore screening or anxiously "do everything." Neither is right.
+
+So this is built on a different premise: **a curious person who trusts data should be able to see why a check matters, what it actually buys them, and what it costs — then make their own call.** The traffic lights tell you *how much to care*; the knowledge layer tells you *why*. The goal isn't more tests — it's the *right* ones, early, with eyes open.
+
+> Caveat, stated plainly: this is an educational tool, not a doctor, and not a substitute for screening guidelines or medical care. See [DISCLAIMER.md](DISCLAIMER.md).
 
 ## What it does
 
@@ -96,9 +112,21 @@ Default is local SQLite. To switch to Postgres (Supabase / Neon) for multi-devic
 
 Next.js 16 (App Router) · React 19 · Tailwind v4 · Prisma 6 + SQLite · Electron · Anthropic & OpenAI SDKs.
 
-## Contributing
+## How the community makes this better
 
-Contributions very welcome — especially **reviewing and expanding the medical knowledge** (lab explainers, reference ranges, catalog items). See [CONTRIBUTING.md](CONTRIBUTING.md).
+Good health knowledge is **distributed** — it varies by country, specialty, language, and life situation, and no single person holds all of it. That's exactly what open source is good at. The app is built so contributions encode real-world knowledge that compounds:
+
+- **Review or add a knowledge card.** Know one topic well (thyroid nodules, the PSA debate, vitamin D)? Sharpen that item's first-principles / ROI / risk explanation. AI-drafted explainers start marked *unreviewed* — a human review promotes them to *reviewed*, so review work directly upgrades quality.
+- **Add your region's reference ranges.** "Normal" for a lab value differs by country, lab, and units. Add ranges so the flags are right where you live.
+- **Teach the importer a new report format.** Share an *anonymized* report layout from your country or hospital so the parser reads it well. (East-Asian 体检报告, US lab panels, operative notes — the more formats, the better it gets.)
+- **Add a language.** Content is structured as `{ zh, en }` — help extend it to a third language for your community.
+- **Encode a screening relationship.** Capture a real guideline as logic: "a recent colonoscopy covers FIT" (supersession), or "a removed polyp shortens the next interval" (findings-aware surveillance).
+- **Add a scenario / screening set.** A life situation or risk profile that deserves tailored guidance — family history of a specific cancer, post-menopausal, a smoker, an ancestry with a higher baseline rate (e.g. gastric cancer in East Asia) — encode *which* checks matter for them and *why*.
+- **Improve risk-in-perspective.** The relatable comparisons (e.g. sedation risk vs. everyday alcohol) that make a number intuitive.
+
+The aim is a knowledge base that gets steadily more accurate and more local with every contribution — the kind of thing that, multiplied across many people, helps someone catch the thing that matters in time.
+
+See **[CONTRIBUTING.md](CONTRIBUTING.md)** for how to start (good first issues need no deep coding — just clear thinking and a citation).
 
 ## License
 
