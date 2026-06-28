@@ -14,10 +14,11 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     // Generated desktop build output — not source, must not be linted.
     "release/**",
-    // CommonJS Node files (Electron main + build scripts) legitimately use
-    // require(); the Next/TS browser rules don't apply to them.
+    // CommonJS Node files (Electron main + build scripts/config) legitimately
+    // use require(); the Next/TS browser rules don't apply to them.
     "electron/**",
     "scripts/*.js",
+    "electron-builder.config.js",
   ]),
 ]);
 

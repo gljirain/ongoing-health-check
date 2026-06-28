@@ -16,49 +16,10 @@
     "setup": "prisma generate && prisma db push && tsx prisma/seed.ts",
     "desktop:build": "next build && node scripts/prepare-desktop.js",
     "desktop:start": "electron .",
-    "dist": "npm run desktop:build && electron-builder"
+    "dist": "npm run desktop:build && electron-builder --config electron-builder.config.js"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
-  },
-  "build": {
-    "appId": "com.ongoinghealthcheck.app",
-    "productName": "Ongoing Health Check",
-    "afterPack": "scripts/after-pack.js",
-    "asar": true,
-    "files": [
-      "electron/**/*",
-      "package.json"
-    ],
-    "extraResources": [
-      {
-        "from": ".next/standalone",
-        "to": ".next/standalone",
-        "filter": [
-          "**/*",
-          "!**/.env",
-          "!**/.env.*"
-        ]
-      },
-      {
-        "from": "build/template.db",
-        "to": "build/template.db"
-      }
-    ],
-    "directories": {
-      "output": "release"
-    },
-    "mac": {
-      "target": "dmg",
-      "category": "public.app-category.healthcare-fitness"
-    },
-    "win": {
-      "target": "nsis"
-    },
-    "linux": {
-      "target": "AppImage",
-      "category": "Utility"
-    }
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.102.0",

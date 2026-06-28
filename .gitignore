@@ -17,8 +17,9 @@
 /.next/
 /out/
 
-# production
-/build
+# production (ignore generated build artifacts, but keep committed build config)
+/build/*
+!/build/entitlements.mac.plist
 
 # misc
 .DS_Store
